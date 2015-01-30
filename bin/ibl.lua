@@ -2,10 +2,10 @@ local component = require "component"
 local fs        = require "filesystem"
 local knn       = require "knn"
 local shell     = require "shell"
-local smine     = require "smine"
+local ibl       = require "ibl"
 
 local function printUsage()
-  io.write("usage: smine [--depth=num] [--min=num] [--range=num] [-d] file valuables ...\n")
+  io.write("usage: ibl [--depth=num] [--min=num] [--range=num] [-d] file valuables ...\n")
 end
 
 -- Checking if we can run with the current configuration
@@ -26,7 +26,7 @@ end
 local file = table.remove(args, 1)
 
 if not fs.exists(shell.resolve(file)) then
-  io.write("smine: " .. file .. ": No such file or directory")
+  io.write("ibl: " .. file .. ": No such file or directory")
   return
 end
 
@@ -34,27 +34,34 @@ local depth, minFound, range = 16, 4, 16
 if opts.depth then
   depth = tonumber(opts.depth)
   if not depth then
-    io.write("smine: ".. opts.depth .. " is not a valid search depth\n")
+    io.write("ibl: ".. opts.depth .. " is not a valid search depth\n")
     return
   end
 end
 if opts.min then
   minFound = tonumber(opts.min)
   if not minFound then
-    io.write("smine: ".. opts.min .. " is not a valid minimum amount\n")
+    io.write("ibl: ".. opts.min .. " is not a valid minimum amount\n")
     return
   end
 end
 if opts.range then
   range = tonumber(opts.range)
   if not range then
-    io.write("smine: ".. opts.range .. " is not a valid search range\n")
+    io.write("ibl: ".. opts.range .. " is not a valid search range\n")
     return
   end
 end
-  
+
 local up = not opts.d
 
 -- Main
-local proto = smine.readData(file)
+local proto = ibl.readData(file)
+local vals  = ibl.makeSet(args)
+local locs  = ibl.findValuables(proto, vals, depth, range)
 
+local fmt = "%6d%6d%6d\n"
+io.write(("%6s%6s%6s\n"):format("x", "y", "z"))
+for i=1,#locs do 
+  io.write(fmt:format(locs[i].x, locs[i].y, locs[i].z))
+end

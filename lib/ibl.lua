@@ -1,9 +1,9 @@
 local com = require "component"
 local knn = require "knn"
 
-local smine = {}
+local ibl = {}
 
-function smine.readData(file)
+function ibl.readData(file)
   local handle, reason = io.open(file, "r")
   if not handle then
     return nil, reason
@@ -28,7 +28,7 @@ function smine.readData(file)
   return data
 end
 
-function smine.makeSet(arg, ...)
+function ibl.makeSet(arg, ...)
   if type(arg) ~= "table" then
     arg = table.pack(arg, ...)
   end
@@ -39,7 +39,7 @@ function smine.makeSet(arg, ...)
   return ret
 end
 
-function smine.findValuables(protos, value, depth, range)
+function ibl.findValuables(protos, value, depth, range)
   local geo = com.geolyzer
   local locations = {}
   for x=-range, range do
@@ -57,4 +57,4 @@ function smine.findValuables(protos, value, depth, range)
   return locations
 end
 
-return smine
+return ibl
