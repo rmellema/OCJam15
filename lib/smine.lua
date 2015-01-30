@@ -28,12 +28,23 @@ function smine.readData(file)
   return data
 end
 
-function smine.findValuables(protos, value, depth, range, searchBoth)
+function smine.makeSet(arg, ...)
+  if type(arg) ~= "table" then
+    arg = table.pack(arg, ...)
+  end
+  local ret = {}
+  for i=1,#arg do
+    ret[arg[i]] = true
+  end
+  return ret
+end
+
+function smine.findValuables(protos, value, depth, range)
   local geo = com.geolyzer
   local locations = {}
   for x=-range, range do
     for z=-range, range do
-      local s   = geo.scan(x, z)
+      local s = geo.scan(x, z)
       for y=-depth, depth do
         local h = s[33 + y]
         local class = knn.knn(h, 1, protos, knn.euclid1D)
