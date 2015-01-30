@@ -2,34 +2,10 @@ local component = require "component"
 local fs        = require "filesystem"
 local knn       = require "knn"
 local shell     = require "shell"
+local smine     = require "smine"
 
 local function printUsage()
   io.write("usage: smine [--depth=num] [--min=num] [--range=num] [-d] file valuables ...\n")
-end
-
-local function readData(file)
-  local handle, reason = io.open(file, "r")
-  if not handle then
-    return nil, reason
-  end
-  local function readLine(line)
-    if line:match("^%s*#") then
-      return nil
-    else
-      local num, class = line:match("^%s*(%d*%.?%d*)%s*;%s*([%a%d_]+)")
-      return tonumber(num), class
-    end
-  end
-  local data = {}
-  for line in handle:lines() do
-    local tmp, num, class = {}, readLine(line)
-    if num then
-      tmp[1] = num
-      tmp.class = class
-      table.insert(data, tmp)
-    end
-  end
-  return data
 end
 
 -- Checking if we can run with the current configuration
@@ -80,8 +56,5 @@ end
 local up = not opts.d
 
 -- Main
-local proto = readData(file)
+local proto = smine.readData(file)
 
-for i=1, #data do
-  print(data[i][1], data[i].class)
-end
