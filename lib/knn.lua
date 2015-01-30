@@ -29,6 +29,8 @@ local function knn(point, k, data, dist)
 end
 
 local function euclid1D(x, y)
+  x = (type(x) == "table" and x[1] or x)
+  y = (type(y) == "table" and y[1] or y)
   return math.abs(x-y)
 end
 
