@@ -4,6 +4,11 @@ local sides = require "sides"
 local lama = {}
 local location, theta = {x=0, y=0, z=0}, nil
 
+-- Distance function
+local function manhattan(o, t)
+  return math.abs(o.x - t.x) + math.abs(o.y - t.y) + math.abs(o.z - t.z)
+end
+
 -- Location functions
 function lama.setLocation(x, y, z)
   location = {x=x, y=y, z=z}
@@ -137,54 +142,74 @@ lama.down    = funcCreator(down, robot.swingDown, robot.detectDown)
 lama.back    = funcCreator(back, function() end, function() return nil end)
 
 -- High level Movement functions
-function lama.moveTo(x, y, z)
-  local res, reason
+function lama.moveTo(x, y, z, a)
+  local dist, res, reason = 0
   if y < 0 then
-    res, reason = lama.down(math.abs(y))
+    res, reason = lama.down(math.abs(y), a)
   else
-    res, reason = lama.up(y)
+    res, reason = lama.up(y, a)
   end
-  if not res then
-    return res, reason
+  dist = res
+  if not res or res < math.abs(y) then
+    return dist, reason
   end
   if theta == sides.negz or theta == sides.posz then
-    if (z <  0 and theta == sides.negz) or 
-       (z >= 0 and theta == sides.posz) then
-      res, reason = lama.forward(math.abs(z))
-    else
+    if (z < 0 and theta == sides.negz) or 
+       (z > 0 and theta == sides.posz) then
+      res, reason = lama.forward(math.abs(z), a)
+    elseif z ~= 0 then
       lama.turnAround()
-      res, reason = lama.forward(math.abs(z))
+      res, reason = lama.forward(math.abs(z), a)
     end
-    if not res then
-      return res, reason
+    dist = dist + res
+    if not res or res < math.abs(z) then
+      return dist, reason
     end
-    if (x <  0 and theta == sides.posz) or
-       (x >= 0 and theta == sides.negz) then
+    if (x < 0 and theta == sides.posz) or
+       (x > 0 and theta == sides.negz) then
       lama.turnRight()
-    else
+    elseif x ~= 0 then
       lama.turnLeft()
     end
-    res, reason = lama.forward(math.abs(x))
+    res, reason = lama.forward(math.abs(x), a)
+    dist = dist + (res or 0)
   else
-    if (x <  0 and theta == sides.negx) or 
-       (x >= 0 and theta == sides.posx) then
-      res, reason = lama.forward(math.abs(x))
-    else
+    if (x < 0 and theta == sides.negx) or 
+       (x > 0 and theta == sides.posx) then
+      res, reason = lama.forward(math.abs(x), a)
+    elseif x ~= 0 then
       lama.turnAround()
-      res, reason = lama.forward(math.abs(x))
+      res, reason = lama.forward(math.abs(x), a)
     end
-    if not res then
-      return res, reason
+    dist = dist + (res or 0)
+    if not res or res < math.abs(x) then
+      return dist, reason
     end
-    if (z <  0 and theta == sides.posx) or
-       (z >= 0 and theta == sides.negx) then
-      lama.turnRight()
-    else
+    if (z < 0 and theta == sides.posx) or
+       (z > 0 and theta == sides.negx) then
       lama.turnLeft()
+    elseif z ~= 0 then
+      lama.turnRight()
     end
-    res, reason = lama.forward(math.abs(z))
+    res, reason = lama.forward(math.abs(z), a)
+    dist = dist + (res or 0)
   end
-  return res, reason
+  return dist, reason
+end
+
+function lama.goTo(x, y, z)
+  return lama.moveTo(location.x - x, location.y - y, location.z - z)
+end
+
+function lama.followPath(p)
+  local dist, res, reason = 0
+  for i=1, #p do
+    res, reason = lama.moveTo(p[i].x, p[i].y, p[i].z)
+    dist = dist + res
+    if not res or res < manhattan({x=0, y=0, z=0}, p[i]) then
+      return dist, reason
+    end
+  end
 end
 
 return lama
