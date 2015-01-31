@@ -201,10 +201,10 @@ function lama.goTo(x, y, z)
   return lama.moveTo(location.x - x, location.y - y, location.z - z)
 end
 
-function lama.followPath(p)
+function lama.followPath(p, a)
   local dist, res, reason = 0
   for i=1, #p do
-    res, reason = lama.moveTo(p[i].x, p[i].y, p[i].z)
+    res, reason = lama.moveTo(p[i].x, p[i].y, p[i].z,a )
     dist = dist + res
     if not res or res < manhattan({x=0, y=0, z=0}, p[i]) then
       return dist, reason
