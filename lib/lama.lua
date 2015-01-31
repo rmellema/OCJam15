@@ -39,6 +39,10 @@ function lama.setOrientation(t)
   return theta
 end
 
+function lama.getOrientation()
+  return theta
+end
+
 function lama.turnLeft()
   theta = ({nil, 4, 5, 3, 2})[theta]
   return robot.turnLeft()
@@ -95,6 +99,22 @@ local function forward()
   return res, reason
 end
 
+local function back()
+  local res, reason = robot.back()
+  if res then
+    if theta == sides.negz then
+      location.z = location.z + 1
+    elseif theta == sides.posz then
+      location.z = location.z - 1
+    elseif theta == sides.negx then
+      location.x = location.x + 1
+    elseif theta == sides.posx then
+      location.x = location.x - 1
+    end
+  end
+  return res, reason
+end
+
 local function up()
   local res, reason = robot.up()
   if res then
@@ -114,5 +134,57 @@ end
 lama.forward = funcCreator(forward, robot.swing, robot.detect)
 lama.up      = funcCreator(up, robot.swingUp, robot.detectUp)
 lama.down    = funcCreator(down, robot.swingDown, robot.detectDown)
+lama.back    = funcCreator(back, function() end, function() return nil end)
+
+-- High level Movement functions
+function lama.moveTo(x, y, z)
+  local res, reason
+  if y < 0 then
+    res, reason = lama.down(math.abs(y))
+  else
+    res, reason = lama.up(y)
+  end
+  if not res then
+    return res, reason
+  end
+  if theta == sides.negz or theta == sides.posz then
+    if (z <  0 and theta == sides.negz) or 
+       (z >= 0 and theta == sides.posz) then
+      res, reason = lama.forward(math.abs(z))
+    else
+      lama.turnAround()
+      res, reason = lama.forward(math.abs(z))
+    end
+    if not res then
+      return res, reason
+    end
+    if (x <  0 and theta == sides.posz) or
+       (x >= 0 and theta == sides.negz) then
+      lama.turnRight()
+    else
+      lama.turnLeft()
+    end
+    res, reason = lama.forward(math.abs(x))
+  else
+    if (x <  0 and theta == sides.negx) or 
+       (x >= 0 and theta == sides.posx) then
+      res, reason = lama.forward(math.abs(x))
+    else
+      lama.turnAround()
+      res, reason = lama.forward(math.abs(x))
+    end
+    if not res then
+      return res, reason
+    end
+    if (z <  0 and theta == sides.posx) or
+       (z >= 0 and theta == sides.negx) then
+      lama.turnRight()
+    else
+      lama.turnLeft()
+    end
+    res, reason = lama.forward(math.abs(z))
+  end
+  return res, reason
+end
 
 return lama
