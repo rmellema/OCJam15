@@ -11,14 +11,17 @@ end
 local function length(p)
   local sum = 0
   for i=2, #p do
-    sum = sum + ipp.manhattan(p[i-1], p[i])
+    sum = sum + manhattan(p[i-1], p[i])
   end
   return sum
 end
 
 local function reverse(all, start, length)
   local stop, ret = start + length, {}
-  print(stop)
+  if stop > #all then
+    stop = #all
+    length = stop - start
+  end
   for i=1,start-1 do
     ret[i] = all[i]
   end
@@ -45,4 +48,4 @@ function ipp.ipp(points, max)
   return ret
 end
 
-return ipp
+return {ipp = ipp.ipp, reverse = reverse}
