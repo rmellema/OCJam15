@@ -60,8 +60,15 @@ local proto = ibl.readData(file)
 local vals  = ibl.makeSet(args)
 local locs  = ibl.findValuables(proto, vals, depth, range)
 
+if type(opts.output) == "string" then
+  print("Setting output to: "..opts.output)
+  io.output(opts.output)
+end
+
 local fmt = "%6d%6d%6d\n"
 io.write(("%6s%6s%6s\n"):format("x", "y", "z"))
 for i=1,#locs do 
   io.write(fmt:format(locs[i].x, locs[i].y, locs[i].z))
 end
+
+io.flush()
