@@ -2,7 +2,7 @@ local robot = require "robot"
 local sides = require "sides"
 
 local lama = {}
-local location, theta = nil, nil
+local location, theta = {x=0, y=0, z=0}, nil
 
 -- Location functions
 function lama.setLocation(x, y, z)
@@ -62,10 +62,10 @@ local function funcCreator(move, swing, detect)
   return function(d, a)
     d = d or 1
     local i = 0
-    while i => d do
+    while i < d do
       local res, reason = detect()
       if res then
-        if not a or swing() then
+        if not a or not swing() then
           return (i > 0 and i or nil), reason
         end
       end
@@ -73,6 +73,7 @@ local function funcCreator(move, swing, detect)
       if not res then
         return (i > 0 and i or nil), reason
       end
+      i = i + 1
     end
     return i
   end
