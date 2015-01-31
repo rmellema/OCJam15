@@ -34,18 +34,33 @@ local function reverse(all, start, length)
   return ret
 end
 
-function ipp.ipp(points, max)
+function ipp.shortenPath(path, max)
   max = max or 20
-  local ret = points
+  local ret = path
   for i=1,max do
-    local start, len = math.random(#points), math.random(#points/2)
-    local cost = length(points)
-    ret = reverse(points, start, len)
+    local start, len = math.random(#path), math.random(#path/2)
+    local cost = length(path)
+    ret = reverse(path, start, len)
     if length(ret) < cost then
-      points = ret
+      path = ret
     end
   end
   return ret
 end
 
-return {ipp = ipp.ipp, reverse = reverse}
+function ipp.coordsToPath(p)
+  local ret = {p[1]}
+  for i=2, #p do
+    ret[i] = {x = p[i].x - p[i-1].x, 
+              y = p[i].y - p[i-1].y, 
+              z = p[i].z - p[i-1].z}
+  end
+  return ret
+end
+
+function ipp.ipp(path, max)
+  local p = ipp.shortenPath(path, max)
+  return ipp.coordsToPath(p)
+end
+
+return ipp
