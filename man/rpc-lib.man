@@ -1,0 +1,30 @@
+NAME
+  rpc - Retarded Path Computation
+
+SYNOPSIS
+  rpc.shortenPath(path: table, max: number): table
+  rpc.coordsToPath(path: table): table
+  rpc.rpc(path: table, max:number): table
+
+DESCRIPTION
+  rpc tries to shorten paths so the travelling time becomes shorter. A path
+  is a series of coordinates in 3 Dimensional space. For the shortening 
+  absolute coordinates are used, so there is also a function to turn a path
+  with absolute coordinates into a path with relative coordinates, which
+  is easier to travel along.
+
+  rpc.shortenPath takes a current path `path` and a maximum number of
+  iterations `max` and tries to shorten the path by making random 
+  permutations in the path. It returns the permuted path.
+
+  rpc.coordsToPath takes a path `path` and turns it into a path with
+  relative coordinates.
+
+  rpc.rpc is a wrapper around rpc.shortenPath that returns the path with
+  relative coordinates instead of absolute coordinates.
+
+EXAMPLE
+  Shorten path `p` in 200 iterations:
+
+      > np = rpc.shortenPath(p, 200)
+
