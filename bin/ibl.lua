@@ -5,7 +5,7 @@ local shell     = require "shell"
 local ibl       = require "ibl"
 
 local function printUsage()
-  io.write("usage: ibl [--depth=num] [--range=num] file valuables ...\n")
+  io.write("usage: ibl [--depth=num] [--range=num] [--ouptut=FILE] file valuables ...\n")
 end
 
 -- Checking if we can run with the current configuration
