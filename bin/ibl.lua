@@ -5,7 +5,7 @@ local shell     = require "shell"
 local ibl       = require "ibl"
 
 local function printUsage()
-  io.write("usage: ibl [--depth=num] [--min=num] [--range=num] [-d] file valuables ...\n")
+  io.write("usage: ibl [--depth=num] [--range=num] file valuables ...\n")
 end
 
 -- Checking if we can run with the current configuration
@@ -13,8 +13,6 @@ if not component.isAvailable "geolyzer" then
   io.write("No geolyzer found, aborting!\n")
   return
 end
-
-local geolyzer  = component.geolyzer
 
 local args, opts = shell.parse(...)
 
@@ -30,18 +28,11 @@ if not fs.exists(shell.resolve(file)) then
   return
 end
 
-local depth, minFound, range = 16, 4, 16
+local depth, range = 10, 10
 if opts.depth then
   depth = tonumber(opts.depth)
   if not depth then
     io.write("ibl: ".. opts.depth .. " is not a valid search depth\n")
-    return
-  end
-end
-if opts.min then
-  minFound = tonumber(opts.min)
-  if not minFound then
-    io.write("ibl: ".. opts.min .. " is not a valid minimum amount\n")
     return
   end
 end
@@ -53,15 +44,12 @@ if opts.range then
   end
 end
 
-local up = not opts.d
-
 -- Main
 local proto = ibl.readData(file)
 local vals  = ibl.makeSet(args)
 local locs  = ibl.findValuables(proto, vals, depth, range)
 
 if type(opts.output) == "string" then
-  print("Setting output to: "..opts.output)
   io.output(opts.output)
 end
 
