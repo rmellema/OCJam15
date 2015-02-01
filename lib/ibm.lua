@@ -7,7 +7,7 @@ local ibm = {}
 function ibm.locateMineReturn(proto, valuables, depth, range)
   local sx, sy, sz = lama.getPosition()
   ibm.locateAndMine(proto, valuables, depth, range)
-  lama.goTo(sx, sy, sz)
+  lama.goTo(sx, sy, sz, true)
 end
 
 function ibm.locateAndMine(proto, valuables, depth, range)
