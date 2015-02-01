@@ -197,8 +197,8 @@ function lama.moveTo(x, y, z, a)
   return dist, reason
 end
 
-function lama.goTo(x, y, z)
-  return lama.moveTo(location.x - x, location.y - y, location.z - z)
+function lama.goTo(x, y, z, a)
+  return lama.moveTo(location.x - x, location.y - y, location.z - z, a)
 end
 
 function lama.followPath(p, a)
