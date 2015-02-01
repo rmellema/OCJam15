@@ -1,13 +1,13 @@
 NAME
-  ibl-lib - Intelligent Block Locator Library
+  ibl - Intelligent Block Locator
 
 SYNOPSIS
-  ibl.readData(FILE): prototypes
-  ibl.makeSet(STRING ...): set
-  ibl.findValuables(prototypes, set, number, number): table
+  ibl.readData(file: string): table
+  ibl.makeSet(elements: string ...): table
+  ibl.findValuables(prototypes: table, set: table, number, number): table
 
 DESCRIPTION
-  `ibl-lib` is the library used by `ibl`. It finds blocks undergournd based
+  `ibl` is the library used by `ibl`. It finds blocks undergournd based
   on hardness and a prototype file. The library requires a geolyzer to 
   function. 
 
