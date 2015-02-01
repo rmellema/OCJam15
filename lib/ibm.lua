@@ -13,7 +13,7 @@ end
 function ibm.locateMineReturn(proto, valuables, depth, range, pr)
   local sx, sy, sz = lama.getPosition()
   local sf         = lama.getOrientation()
-  ibm.locateAndMine(proto, valuables, depth, range)
+  ibm.locateAndMine(proto, valuables, depth, range, pr)
   say(pr, "Returning to starting position")
   lama.goTo(sx, sy, sz, true)
   lama.turn(sf)
