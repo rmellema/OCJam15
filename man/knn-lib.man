@@ -1,0 +1,30 @@
+NAME
+  knn - K-Nearest Neighbour
+
+SYNOPSIS
+  knn.knn(point: table, k: number, data: table, dist: function): string
+  knn.euclid1D(table or number, table or number): number
+  knn.euclid(table, table): number
+
+DESCRIPTION
+  knn will try to find the `k` nearest neighbours of `point` in `data` 
+  according to distance metric `dist`. It will then return the most
+  occuring class. `point` and the vectors in `data` should have the same 
+  length. All the vectors in `data` should also have a `class` field which
+  is the class of that vector. 
+
+  Chosing the correct `k` can be tricky, but it is advised to let `k` be the
+  number of classes in your dataset + 1. This makes sure that there will be
+  no ties.
+
+  `dist` is the distance metric used to calculate the distance between two
+  points. Unless you need a specfic metric, the accompanying `euclid`
+  function will do. `euclid1D` is a version of `euclid` that is optimized
+  for 1-Dimensional data.
+
+EXAMPLES
+  Classify `{0.75, 0.75}` using data `d` and `euclid` with a `k` of 3:
+
+      > =knn.knn({0.75, 0.75}, 3, d, knn.euclid)
+
+
