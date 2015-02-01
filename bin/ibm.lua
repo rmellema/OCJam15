@@ -50,6 +50,6 @@ local vals  = ibl.makeSet(args)
 
 io.write("Starting mining procedure\n")
 
-ibm.locateMineReturn(proto, vals, depth, range)
+ibm.locateMineReturn(proto, vals, depth, range, true)
 
-io.write("Done")
+io.write("Done\n")
