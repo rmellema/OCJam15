@@ -1,0 +1,41 @@
+NAME
+  ibl-lib - Intelligent Block Locator Library
+
+SYNOPSIS
+  ibl.readData(FILE): prototypes
+  ibl.makeSet(STRING ...): set
+  ibl.findValuables(prototypes, set, number, number): table
+
+DESCRIPTION
+  `ibl-lib` is the library used by `ibl`. It finds blocks undergournd based
+  on hardness and a prototype file. The library requires a geolyzer to 
+  function. 
+
+  ibl.readData reads data in ibl format to a Lua table. For a specification of the format see `ibl`.
+
+  ibl.makeSet takes an arbritrary number of arguments or a table and turns
+  them into a set.
+
+  ibl.findValuables takes a table with prototypes, a set of valuables and a
+  search depth and range and returns a list with all the found valuables.
+  All arguments need to be specified by the user.
+
+EXAMPLES
+  Read the prototypes from `proto.ibl`:
+
+      > d = ibl.readData("proto.ibl")
+
+  Make a set with the element `ore`:
+
+      > s = ibl.makeSet("ore")
+
+  Find all the ores in a 21x21x21 radius and print them:
+
+      > l = ibl.findValuables(d, s, 10, 10)
+      > print("x", "y", "z")
+      > for i=1, #l do
+      >   print(l[i].x, l[i].y, l[i].z)
+      > end
+
+SEE ALSO
+  ibl, ibm, ibm-lib

@@ -1,0 +1,42 @@
+NAME
+  ibl - Intelligent Block Locator 
+
+SYNOPSIS
+  ibl [--depth=NUM] [--range=NUM] [--output=FILE] FILE STRING ...
+
+DESCRIPTION
+  ibl finds blocks underground based on hardness and a prototype file. See 
+  DETAILS for information on the prototype file. The program requires a 
+  geolyzer to function. It returns a list of relative locations of the found
+  blocks. ibl only searches for the categories of blocks that are given 
+  after the file.
+
+OPTIONS
+  --depth=NUM The number of blocks the program will search for in the 
+    vertical axis. It will search NUM blocks in both directions.
+    Default is 10.
+
+  --range=NUM The number of blocks the program will search for in both
+    horizontal axes. It will search NUM blocks to the front, right, back and
+    left of its current position.
+    Default is 10.
+
+  --output=FILE The file to store the program output into.
+
+DETAILS
+  The prototype file has to be written in the ibl file format. A file in 
+  this format consists of lines consisting of a number and a string, 
+  seperated by a `;`. A `#` introduces a comment.
+
+EXAMPLES
+  To find all the ores in a 21x21x21 block radius:
+  
+      $ ibl proto.ibl ore
+
+  To find all the metal blocks in a 11x11x11 block radius and store the
+  output into `metal.txt`:
+
+      $ ibl --depth=5 --range=5 --output=metal.txt proto.ibl metal
+
+SEE ALSO
+  ibl-lib, ibm, ibm-lib
