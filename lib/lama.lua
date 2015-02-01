@@ -66,6 +66,25 @@ function lama.turnAround()
   return res, reason
 end
 
+function lama.turn(to)
+  if to == theta then
+    return to
+  elseif (to == sides.back  and theta == sides.front) or
+         (to == sides.front and theta == sides.back)  or
+         (to == sides.right and theta == sides.left)  or
+         (to == sides.left  and theta == sides.right) then
+    lama.turnAround()
+  elseif (to == sides.back  and theta == sides.right) or
+         (to == sides.right and theta == sides.front) or
+         (to == sides.front and theta == sides.left)  or
+         (to == sides.left  and theta == sides.back)  then
+    lama.turnLeft()
+  else
+    lama.turnRight()
+  end
+  return to
+end
+
 -- Movement functions
 local function funcCreator(move, swing, detect)
   return function(d, a)
