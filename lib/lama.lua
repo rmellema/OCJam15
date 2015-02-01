@@ -204,8 +204,8 @@ end
 function lama.followPath(p, a)
   local dist, res, reason = 0
   for i=1, #p do
-    res, reason = lama.moveTo(p[i].x, p[i].y, p[i].z,a )
-    dist = dist + res
+    res, reason = lama.moveTo(p[i].x, p[i].y, p[i].z, a)
+    dist = dist + (res or 0)
     if not res or res < manhattan({x=0, y=0, z=0}, p[i]) then
       return dist, reason
     end

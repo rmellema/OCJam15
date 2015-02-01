@@ -36,6 +36,7 @@ end
 
 function ipp.shortenPath(path, max)
   max = max or 20
+  table.insert(path, {x=0,y=0,z=0}, 1)
   local ret = path
   for i=1,max do
     local start, len = math.random(#path), math.random(#path/2)
