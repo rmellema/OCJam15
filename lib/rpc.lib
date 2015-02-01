@@ -1,4 +1,4 @@
-local ipp = {}
+local rpc = {}
 
 local function manhattan(o, t)
   local sum = 0
@@ -34,7 +34,7 @@ local function reverse(all, start, length)
   return ret
 end
 
-function ipp.shortenPath(path, max)
+function rpc.shortenPath(path, max)
   max = max or 20
   table.insert(path, {x=0,y=0,z=0}, 1)
   local ret = path
@@ -49,7 +49,7 @@ function ipp.shortenPath(path, max)
   return ret
 end
 
-function ipp.coordsToPath(p)
+function rpc.coordsToPath(p)
   local ret = {p[1]}
   for i=2, #p do
     ret[i] = {x = p[i].x - p[i-1].x, 
@@ -59,9 +59,9 @@ function ipp.coordsToPath(p)
   return ret
 end
 
-function ipp.ipp(path, max)
-  local p = ipp.shortenPath(path, max)
-  return ipp.coordsToPath(p)
+function rpc.rpc(path, max)
+  local p = rpc.shortenPath(path, max)
+  return rpc.coordsToPath(p)
 end
 
-return ipp
+return rpc
