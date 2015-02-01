@@ -1,0 +1,39 @@
+NAME
+  ibm - Intelligent Block Miner 
+
+SYNOPSIS
+  ibm [--depth=NUM] [--range=NUM] FILE STRING ...
+
+DESCRIPTION
+  ibm finds and mines blocks underground based on hardness and a prototype 
+  file. See DETAILS for information on the prototype file. The program 
+  requires a geolyzer to function. ibm only searches for the categories of 
+  blocks that are given after the file.
+
+OPTIONS
+  --depth=NUM The number of blocks the program will search for in the 
+    vertical axis. It will search NUM blocks in both directions.
+    Default is 10.
+
+  --range=NUM The number of blocks the program will search for in both
+    horizontal axes. It will search NUM blocks to the front, right, back and
+    left of its current position.
+    Default is 10.
+
+DETAILS
+  The prototype file has to be written in the ibl file format. A file in 
+  this format consists of lines consisting of a number and a string, 
+  seperated by a `;`. A `#` introduces a comment.
+
+EXAMPLES
+  To find and mine all the ores in a 21x21x21 block radius:
+  
+      $ ibm proto.ibl ore
+
+  To find and mine all the metal blocks in a 11x11x11 block radius and store
+  the output into `metal.txt`:
+
+      $ ibm --depth=5 --range=5 --output=metal.txt proto.ibl metal
+
+SEE ALSO
+  ibm-lib, ibl, ibl-lib

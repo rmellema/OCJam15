@@ -1,0 +1,28 @@
+NAME
+  ibm - Intelligent Block Miner
+
+SYNOPSIS
+  ibm.locateAndMine(table, table, number, number, boolean)
+  ibm.locateMineReturn(table, table, number, number, boolean)
+
+DESCRIPTION
+  ibm finds and mines blocks underground based on hardness and a table of
+  prototypes. The library requires a geolyzer to function. ibm only searches
+  for blocks that are given in the second argument.
+
+  ibm.locateAndMine takes a table of prototypes, a set of valuables, a
+  search depth, a search range and a boolean to decide if it may print.
+  The prototype table can be read in from a file with `ibl.readData` if it
+  is in ibl format. See `ibl-lib` for more information.
+
+  ibm.locateMineReturn is a wrapper around ibm.locateAndMine that makes sure
+  that the robot returns to its starting posistion after it is done mining.
+  It takes the same arguments.
+
+EXAMPLES
+  Mine all the ores in a 21x21x21 area around the robot:
+
+      > ibm.locateAndMine(d, s, 10, 10)
+
+SEE ALSO
+  ibm, ibl-lib, ibl
