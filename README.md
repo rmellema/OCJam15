@@ -22,4 +22,8 @@ It constists of multiple parts which all depend on each other.
     plan a shorter path through the locations and `lama` to move through
     the locations. Comes as both a library and a program.
 
+Before `lama` or `ibm` can be used, `lama` has to be initialized. This 
+can be done by setting the orientation in `lama` with the following
+Lua code: `lama.setOrientation(sides.<direction robot is facing>)`. So
+if the robot is facing south, the call becomes: `lama.setOrientation(sides.south)`.
 
